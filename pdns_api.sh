@@ -85,9 +85,6 @@ load_config() {
     done
   fi
 
-  # Default values
-  PDNS_PORT=8081
-
   # Check if config was set
   if [[ -z "${CONFIG:-}" ]]; then
     # Warn about missing config
@@ -100,6 +97,9 @@ load_config() {
   # Check required settings
   [[ -n "${PDNS_HOST:-}" ]] || fatalerror "PDNS_HOST setting is required."
   [[ -n "${PDNS_KEY:-}" ]]  || fatalerror "PDNS_KEY setting is required."
+
+  # Check optional settings
+  [[ -n "${PDNS_PORT:-}" ]] || PDNS_PORT=8081
 }
 
 # Load the zones from file
@@ -405,7 +405,9 @@ main() {
   # Perform requests
   for zone in "${!requests[@]}"; do
     request "PATCH" "${url}/${zone}" '{"rrsets": ['"${requests[${zone}]}"']}'
-    request "PUT" "${url}/${zone}/notify" ''
+    if [[ -z "${PDNS_NO_NOTIFY:-}" ]]; then
+      request "PUT" "${url}/${zone}/notify" ''
+    fi
   done
 
   # Wait the requested amount of seconds when deployed
