@@ -1,12 +1,20 @@
 language: bash
 
+stages:
+- lint
+- test
+
+env:
+- VERBOSE=true
+
 addons:
   apt:
     packages:
-      - shellcheck
+    - shellcheck
 
-env:
-  - VERBOSE=true
-script:
-  - shellcheck **/*.sh
-  - ./test.sh
+jobs:
+  include:
+  - stage: lint
+    script: shellcheck **/*.sh
+  - stage: test
+    script: ./test.sh
