@@ -1,0 +1,17 @@
+language: bash
+
+addons:
+  apt:
+    packages:
+      - shellcheck
+
+stages:
+  - lint
+  - test
+
+jobs:
+  include:
+    - stage: lint
+      script: shellcheck **/*.sh
+    - stage: test
+      script: ./test.sh
