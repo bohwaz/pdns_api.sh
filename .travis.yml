@@ -7,14 +7,13 @@ stages:
 env:
 - VERBOSE=true
 
-addons:
-  apt:
-    packages:
-    - shellcheck
-
 jobs:
   include:
   - stage: lint
+    addons:
+      apt:
+        packages:
+        - shellcheck
     script: shellcheck **/*.sh
   - stage: test
     script: ./test.sh
