@@ -47,11 +47,11 @@ _FAIL() {
   FAILURES=$((FAILURES+1))
 }
 _EXP() {
-  echo -e "$(_COLOR 33 EXPECTED)"\
-    "$1" \
-    "\\n$(_COLOR 33 GOT)\\n" \
-    "$2" \
-    "\\n---"
+  echo -e "$(_COLOR 33 EXPECTED)\\n"\
+    "$1\\n" \
+    "$(_COLOR 33 GOT)\\n" \
+    "$2\\n" \
+    "---"
 }
 _MATCH() {
   out="$1"
