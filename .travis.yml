@@ -5,13 +5,8 @@ addons:
     packages:
       - shellcheck
 
-stages:
-  - lint
-  - test
-
-jobs:
-  include:
-    - stage: lint
-      script: shellcheck **/*.sh
-    - stage: test
-      script: ./test.sh
+env:
+  - VERBOSE=true
+script:
+  - shellcheck **/*.sh
+  - ./test.sh
